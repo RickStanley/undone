@@ -1,3 +1,7 @@
+//#region Node
+const { ipcRenderer } = require('electron');
+//#endregion
+
 import CheckItem from "./components/CheckItem.js";
 import { UnorderedChecklist } from "./components/CheckList.js";
 import CircularProgress from "./components/CircularProgress.js";
@@ -24,11 +28,23 @@ ready(() => {
   checkList.addEventListener('change', event => {
     if (event.target.checked)
       skillIncreaseSound.play();
-      console.log(event.target);
     const totalComplete = checkList.getCheckedItems().length / checkItemsLength * 100;
     progress.value = totalComplete;
     if (totalComplete === 100) {
       levelUpSound.play();
     }
-  })
+  });
+
+  document.body.addEventListener('click', event => {
+    /** @type {HTMLElement} */
+    const actionElement = event.target.closest('[data-action]');
+
+    if (actionElement) {
+      const action = actionElement.dataset.action;
+      if (action) {
+        const [channel, ...args] = action.split(':');
+        ipcRenderer.send(channel, args);
+      }
+    }
+  });
 });

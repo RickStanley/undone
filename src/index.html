@@ -3,48 +3,54 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Hello World!</title>
+  <title>Undone</title>
   <link rel="stylesheet" href="index.css">
   <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
 </head>
 
 <body>
-  <header class="header lateral-padding">
-    <h1>The lista</h1>
-    <circular-progress></circular-progress>
-  </header>
-  <ul class="list lateral-padding" is="unordered-checklist">
-    <li>
-      <check-item>
-        Meu coco
-      </check-item>
-    </li>
-    <li>
-      <check-item>
-        Fundamentos da matemática
-      </check-item>
-    </li>
-    <li>
-      Criar listador de lista
-      <ul>
-        <li>
-          <check-item>
-            Seid ihr so damit beschasft euch to bemzjnf
-          </check-item>
-        </li>
-        <li>
-          <check-item>
-            Hello world
-          </check-item>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <check-item>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit
-      </check-item>
-    </li>
-  </ul>
+  <div class="actions">
+    <button data-action="window:minimize" class="actions__btn">&ndash;</button>
+    <button data-action="window:close" class="actions__btn actions__btn--red">&times;</button>
+  </div>
+  <main>
+    <header class="header lateral-padding">
+      <h1>The lista</h1>
+      <circular-progress></circular-progress>
+    </header>
+    <ul class="list lateral-padding" is="unordered-checklist">
+      <li>
+        <check-item>
+          Check item 1
+        </check-item>
+      </li>
+      <li>
+        <check-item>
+          Check item 2
+        </check-item>
+      </li>
+      <li>
+        Sub-checklist 1
+        <ul is="unordered-checklist">
+          <li>
+            <check-item>
+              Check item 3
+            </check-item>
+          </li>
+          <li>
+            <check-item>
+              Check item 4
+            </check-item>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <check-item>
+          Check item 5
+        </check-item>
+      </li>
+    </ul>
+  </main>
 
   <script type="module" src="./index.js"></script>
 </body>

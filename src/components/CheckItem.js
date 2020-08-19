@@ -6,14 +6,16 @@ label {
   cursor: pointer;
   user-select: none;
   padding: calc(5 / 16 * 1rem);
+  background-color: var(--check-item-bg-color);
 }
 
 label:hover {
-  background-color: var(--check-item-bg-hover, rgba(255,255,255,.15));
+  background-color: var(--check-item-bg-color-hover, rgba(255,255,255,.15));
 }
 
 input {
-  margin-right: calc(5 / 16 * 1rem);
+  margin: 0;
+  margin-right: calc(10 / 16 * 1rem);
 }
 `;
 

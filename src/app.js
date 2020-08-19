@@ -1,27 +1,176 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, nativeTheme, Menu, screen, Tray } = require('electron');
 const path = require('path');
+
+/** @type {Tray} */
+let tray = null;
+/** @type {BrowserWindow} */
+let mainWindow = null;
+
+let isQuiting = false;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
   app.quit();
 }
 
+app.on('before-quit', () => {
+  isQuiting = true;
+});
+
+//#region Shortcuts
+function registerShortcuts() {
+  globalShortcut.register('CommandOrControl+W', () => {
+    mainWindow.destroy();
+    app.quit();
+  });
+  globalShortcut.register('CommandOrControl+C', () => {
+    unregisterShorcuts();
+    mainWindow.hide();
+  });
+}
+
+function unregisterShorcuts() {
+  globalShortcut.unregisterAll();
+}
+//#endregion
+
+
 const createWindow = () => {
+  const mainWindowDimensions = {
+    width: 375,
+    height: 500
+  };
+
+  const mainWindowPosition = calculateWindowPosition(mainWindowDimensions);
+
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+  mainWindow = new BrowserWindow({
+    ...mainWindowDimensions,
+    ...mainWindowPosition,
+    fullscreenable: false,
+    resizable: false,
+    frame: false,
+    show: false,
     webPreferences: {
-      worldSafeExecuteJavaScript: true
+      worldSafeExecuteJavaScript: true,
+      nodeIntegration: true
     }
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.show();
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
+  });
+
+  const gotTheLock = app.requestSingleInstanceLock();
+
+  if (!gotTheLock) {
+    app.quit();
+  } else {
+    app.on('second-instance', (_event, _commandLine, _workingDirectory) => {
+      mainWindow?.restore();
+    });
+  }
+
+  mainWindow.on('focus', registerShortcuts);
+  mainWindow.on('blur', unregisterShorcuts);
+  mainWindow.on('close', (event) => {
+    if (!isQuiting) {
+      event.prevendDefault();
+      unregisterShorcuts();
+      mainWindow.hide();
+    }
+  });
+  mainWindow.on('minimize', (event) => {
+    if (!isQuiting) {
+      event.prevendDefault();
+      unregisterShorcuts();
+      mainWindow.hide();
+    }
+  });
+
 };
+
+/**
+ * Calculates window position relative to tray prosition in the primary display.
+ * @param {{width: number, height: number}} 
+ */
+const calculateWindowPosition = ({ width, height }) => {
+  const screenBounds = screen.getPrimaryDisplay().size;
+  const trayBounds = tray.getBounds();
+
+  //where is the icon on the screen?
+  let trayPos = 4; // 1:top-left 2:top-right 3:bottom-left 4.bottom-right
+  trayPos = trayBounds.y > screenBounds.height / 2 ? trayPos : trayPos / 2;
+  trayPos = trayBounds.x > screenBounds.width / 2 ? trayPos : trayPos - 1;
+
+  let x, y;
+
+  //calculate the new window position
+  switch (trayPos) {
+    case 1: // for TOP - LEFT
+      x = Math.floor(trayBounds.x + trayBounds.width / 2);
+      y = Math.floor(trayBounds.y + trayBounds.height / 2);
+      break;
+
+    case 2: // for TOP - RIGHT
+      x = Math.floor(
+        trayBounds.x - width - trayBounds.width / 2
+      );
+      y = Math.floor(trayBounds.y + trayBounds.height / 2);
+      break;
+
+    case 3: // for BOTTOM - LEFT
+      x = Math.floor(trayBounds.x + trayBounds.width / 2);
+      y = Math.floor(
+        trayBounds.y - height - trayBounds.height / 2
+      );
+      break;
+
+    case 4: // for BOTTOM - RIGHT
+      x = Math.floor(
+        trayBounds.x - width - trayBounds.width / 2
+      );
+      y = Math.floor(
+        trayBounds.y - height - trayBounds.height / 2
+      );
+      break;
+  }
+
+  return { x: x, y: y };
+}
+
+app.on('ready', () => {
+  const iconPath = path.join(__dirname, '/assets/icons/', `icon-${nativeTheme.shouldUseDarkColors ? 'white' : 'black'}.png`);
+  tray = new Tray(iconPath);
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show',
+      click: () => {
+        mainWindow.show();
+      }
+    },
+    {
+      label: 'Quit',
+      click: () => {
+        mainWindow.destroy();
+        app.quit();
+      }
+    }
+  ]);
+
+  tray.setToolTip('Undone');
+  tray.setContextMenu(contextMenu);
+
+  tray.on('double-click', () => {
+    mainWindow.show();
+  })
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -45,5 +194,16 @@ app.on('activate', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+//#region IPC events
+ipcMain.on('window', (event, args) => {
+  switch (args[0]) {
+    case 'minimize':
+      mainWindow.hide();
+      break;
+    case 'close':
+      mainWindow.destroy();
+      app.quit();
+      break;
+  }
+});
+//#endregion

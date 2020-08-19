@@ -6,7 +6,6 @@
  */
 const sharedMethods = {
   getCheckedItems() {
-    console.log(this.items);
     return this.items.filter(item => item.checked);
   },
   getUncheckedItems() {

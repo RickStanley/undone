@@ -25,7 +25,7 @@ const styleSheet = `
   top: 0;
   left: 0;
 
-  color: var(--progressbar-caption-color);
+  color: var(--progressbar-caption-color, #fefefe);
 }
 
 .progressbar__caption::before {
@@ -37,7 +37,7 @@ const styleSheet = `
 }
 
 .progressbar__graph {
-  font-size: var(--progressbar-size);
+  font-size: var(--progressbar-size, calc(275 / 16 * 1rem));
   width: 1em;
   height: 1em;
 
@@ -52,8 +52,8 @@ const styleSheet = `
   top: 0;
   left: 0;
 
-  stroke: var(--progressbar-graph-color);
-  stroke-width: var(--progressbar-graph-stroke-width);
+  stroke: var(--progressbar-graph-color, #fefefe);
+  stroke-width: var(--progressbar-graph-stroke-width, calc(10 / 16 * 1rem));
   fill: none;
 }
 
@@ -90,12 +90,12 @@ class CircularProgress extends HTMLElement {
 
   _render() {
     this.#CONTAINER.innerHTML = `
-      <span class="progressbar__caption"></span>
-      <svg class="progressbar__graph">
-        <circle class="progressbar__circle progressbar__graph-bg" cx="50%" cy="50%" r=".4em"></circle>
-        <circle class="progressbar__circle progressbar__graph-value" cx="50%" cy="50%" r=".4em" stroke-linejoin="round"
-          stroke-linecap="round"></circle>
-      </svg>
+<span class="progressbar__caption"></span>
+<svg class="progressbar__graph">
+  <circle class="progressbar__circle progressbar__graph-bg" cx="50%" cy="50%" r=".4em"></circle>
+  <circle class="progressbar__circle progressbar__graph-value" cx="50%" cy="50%" r=".4em" stroke-linejoin="round"
+    stroke-linecap="round"></circle>
+</svg>
 `;
 
     this.shadowRoot.append(this.#CONTAINER);
