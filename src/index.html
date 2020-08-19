@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <link rel="stylesheet" href="index.css">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+</head>
+
+<body>
+  <header class="header lateral-padding">
+    <h1>The lista</h1>
+    <circular-progress></circular-progress>
+  </header>
+  <ul class="list lateral-padding" is="unordered-checklist">
+    <li>
+      <check-item>
+        Meu coco
+      </check-item>
+    </li>
+    <li>
+      <check-item>
+        Fundamentos da matemática
+      </check-item>
+    </li>
+    <li>
+      Criar listador de lista
+      <ul>
+        <li>
+          <check-item>
+            Seid ihr so damit beschasft euch to bemzjnf
+          </check-item>
+        </li>
+        <li>
+          <check-item>
+            Hello world
+          </check-item>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <check-item>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit
+      </check-item>
+    </li>
+  </ul>
+
+  <script type="module" src="./index.js"></script>
+</body>
+
+</html>

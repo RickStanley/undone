@@ -1,0 +1,28 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "check-item",
+      "description": "The checklist item.",
+      "attributes": [
+        {
+          "name": "name",
+          "description": "Name carried to the input child."
+        },
+        {
+          "name": "checked",
+          "description": "Whether this item is already checked. This state is carried to the input child."
+        }
+      ]
+    },
+    {
+      "name": "circular-progress",
+      "attributes": [
+        {
+          "name": "value",
+          "description": "Current progress value. From 0 to 100."
+        }
+      ]
+    }
+  ]
+}
