@@ -125,8 +125,8 @@ ol {
   list-style: none;
 }
 
-ul ul,
-ol ol {
+.list ul,
+.list ol {
   margin-top: 0.875em;
 }
 
