@@ -10,12 +10,13 @@
 
 <body>
   <div class="actions">
-    <button data-action="window:minimize" class="actions__btn">&ndash;</button>
-    <button data-action="window:close" class="actions__btn actions__btn--red">&times;</button>
+    <button data-action="open:settings" class="actions__btn" title="Settings">⚙️</button>
+    <button data-action="window:minimize" class="actions__btn" title="Minimize">&ndash;</button>
+    <button data-action="window:close" class="actions__btn actions__btn--red" title="Close undone">&times;</button>
   </div>
   <main>
     <header class="header lateral-padding">
-      <h1>The lista</h1>
+      <h1 id="list-title"></h1>
       <circular-progress></circular-progress>
     </header>
     <ul class="list lateral-padding" is="unordered-checklist"></ul>

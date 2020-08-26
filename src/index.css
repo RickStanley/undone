@@ -21,6 +21,7 @@ button:focus {
 html {
   box-sizing: border-box;
   background-color: white;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -29,6 +30,31 @@ body {
   color: #252525;
 }
 
+/* #region Scrollbar*/
+body,
+html {
+  scrollbar-color: #121212;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #333;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* #endregion */
+
 :root {
   --progressbar-size: calc(50 / 16 * 1rem);
   --progressbar-graph-color: #212121;
@@ -36,6 +62,8 @@ body {
   --progressbar-caption-color: #212121;
 
   --check-item-bg: whitesmoke;
+
+  --highlight-background: whitesmoke;
 
   --button-text-color: #212121;
 }
@@ -54,6 +82,8 @@ body {
     --progressbar-caption-color: white;
 
     --check-item-bg-color: #212121;
+
+    --highlight-background: #121212;
 
     --button-text-color: whitesmoke;
   }
@@ -107,6 +137,7 @@ body {
   top: 0;
   left: 0;
   justify-content: space-between;
+  background-color: var(--highlight-background);
 }
 
 /* #endregion Header*/

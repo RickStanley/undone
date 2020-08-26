@@ -17,6 +17,7 @@
     },
     {
       "name": "circular-progress",
+      "description": "A element that represents the progress.",
       "attributes": [
         {
           "name": "value",

@@ -87,7 +87,7 @@ const createWindow = () => {
   });
   mainWindow.on('minimize', (event) => {
     if (!isQuiting) {
-      event.prevendDefault();
+      event.prevendDefault?.();
       unregisterShorcuts();
       mainWindow.hide();
     }
@@ -192,6 +192,11 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+nativeTheme.on('updated', () => {
+  const iconPath = path.join(__dirname, '/assets/icons/', `icon-${nativeTheme.shouldUseDarkColors ? 'white' : 'black'}.png`);
+  tray.setImage(iconPath);
 });
 
 //#region IPC events

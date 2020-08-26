@@ -17,10 +17,14 @@ ready(() => {
   const skillIncreaseSound = new Audio('./assets/audios/skyrim_skill_increase_sound_effect.ogg');
   const levelUpSound = new Audio('./assets/audios/skyrim_level_up_sound_effect.ogg');
 
+  const listTitle = document.getElementById('list-title');
+
   /** @type {UnorderedChecklist} */
   const checkList = document.querySelector(`[is=${UnorderedChecklist.DEFAULT_NAME}]`);
 
   const progress = document.querySelector(CircularProgress.DEFAULT_NAME, CircularProgress);
+
+  listTitle.textContent = 'The list';
 
   questUpdateSound.play();
 
@@ -105,8 +109,10 @@ ready(() => {
     if (actionElement) {
       const action = actionElement.dataset.action;
       if (action) {
-        const [channel, ...args] = action.split(':');
-        ipcRenderer.send(channel, args);
+        if (/window/.test(action)) {
+          const [channel, ...args] = action.split(':');
+          ipcRenderer.send(channel, args);
+        }
       }
     }
   });
