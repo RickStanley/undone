@@ -26,6 +26,8 @@ class CheckItem extends HTMLElement {
   #LABEL = document.createElement('label');
   #checked = this.hasAttribute('checked');
 
+  static get observedAttributes() { return ['name', 'checked']; }
+
   constructor() {
     super();
 
@@ -48,13 +50,51 @@ class CheckItem extends HTMLElement {
     this._render();
   }
 
+  get name() {
+    return this.#INPUT.name;
+  }
+
+  set name(value) {
+    this.#INPUT.name = value;
+  }
+
   get checked() {
     return this.#checked;
+  }
+
+  /**
+   * @param {boolean} value
+   */
+  set checked(value) {
+    if (typeof value === 'boolean') {
+      this.#INPUT.checked = value;
+      this.#INPUT.dispatchEvent(new Event('change'));
+    }
+  }
+
+  // Or we could overwrite toJSON() method.
+  asJSON() {
+    return {
+      name: this.#INPUT.name,
+      checked: this.#checked,
+      content: this.textContent,
+    };
   }
 
   connectedCallback() {
     if (checkItemStyles.cssRules.length === 0)
       checkItemStyles.replaceSync(styleSheet);
+  }
+
+  attributeChangedCallback(name, _oldValue, newValue) {
+    switch (name) {
+      case 'name':
+        this.#INPUT.name = newValue;
+        break;
+      case 'checked':
+        this.checked = this.hasAttribute('checked');
+        break;
+    }
   }
 
   _render() {

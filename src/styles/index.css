@@ -1,0 +1,73 @@
+/* #region Generic*/
+.lateral-padding {
+  padding: 0 1rem;
+}
+
+.actions {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.actions__btn {
+  cursor: pointer;
+  --padding: calc(7 / 16 * 1rem);
+  --size: calc(18 / 16 * 1rem);
+  color: var(--button-text-color);
+  display: flex;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding);
+  width: var(--size);
+  box-sizing: content-box;
+  font-size: var(--size);
+  height: var(--size);
+  background-color: transparent;
+  border: 0;
+}
+
+.actions__btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.actions__btn--red:hover {
+  background-color: rgba(255, 0, 0, .5);
+  color: white;
+}
+
+/* #endregion */
+
+/* #region Header*/
+
+.header {
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  justify-content: space-between;
+  background-color: var(--highlight-background);
+}
+
+/* #endregion Header*/
+
+/* #region Lists*/
+.list {
+  font-size: calc(14 / 16 * 1rem);
+}
+
+.list li {
+  margin-bottom: calc(10 / 16 * 1rem);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.list ul,
+.list ol {
+  margin-top: 0.875em;
+}
+
+/* #endregion Lists*/

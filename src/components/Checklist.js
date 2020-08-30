@@ -19,6 +19,10 @@ const sharedMethodsMixin = Base => class Shared extends Base {
     return this.items.filter(item => !item.checked);
   }
 
+  getNextItem() {
+    return this.items.find(item => !item.checked);
+  }
+
   static fromJSON(items, type) {
     switch (type) {
       case 'ol':
@@ -31,9 +35,9 @@ const sharedMethodsMixin = Base => class Shared extends Base {
   }
 
   static _createItem(item) {
-    const hasName = 'name' in item;
+    const name = item.name || item.content.trim().replace(/\s/g, '-').toLowerCase() + (~~(Math.random() * 100)).toString();
     const isChecked = 'checked' in item;
-    return `<li>${'items' in item ? `${item.content}${Shared.fromJSON(item.items, item.type)}` : `<check-item ${hasName ? `name="${item.name}"` : ''} ${isChecked ? 'checked' : ''}>${item.content}</check-item>`}</li>`;
+    return `<li>${'items' in item ? `<b>${item.content}</b>${Shared.fromJSON(item.items, item.type)}` : `<check-item name="${name}" ${isChecked ? 'checked' : ''}>${item.content}</check-item>`}</li>`;
   }
 };
 

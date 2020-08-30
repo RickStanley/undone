@@ -35,7 +35,7 @@ function unregisterShorcuts() {
 //#endregion
 
 
-const createWindow = () => {
+const createMainWindow = () => {
   const mainWindowDimensions = {
     width: 375,
     height: 500
@@ -58,7 +58,7 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.loadFile(path.join(__dirname, '/views/index.html'));
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
@@ -93,6 +93,24 @@ const createWindow = () => {
     }
   });
 
+};
+
+const createProgressWindow = () => {
+  const progressWindowDimensions = {
+    width: 375,
+    height: 250,
+  };
+
+  const progressWindowPosition = calculateWindowPosition(progressWindowDimensions);
+
+  const progressWindow = new BrowserWindow({
+    ...progressWindowDimensions,
+    ...progressWindowPosition,
+  });
+
+  progressWindow.loadFile(path.join(__dirname, '/views/progress.html'));
+
+  progressWindow.webContents.openDevTools();
 };
 
 /**
@@ -141,7 +159,7 @@ const calculateWindowPosition = ({ width, height }) => {
       break;
   }
 
-  return { x: x, y: y };
+  return { x, y };
 }
 
 app.on('ready', () => {
@@ -154,6 +172,10 @@ app.on('ready', () => {
       click: () => {
         mainWindow.show();
       }
+    },
+    {
+      label: 'Progress',
+      click: createProgressWindow
     },
     {
       label: 'Quit',
@@ -175,7 +197,7 @@ app.on('ready', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', createMainWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -190,7 +212,7 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createMainWindow();
   }
 });
 
