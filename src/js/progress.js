@@ -21,6 +21,7 @@ deliverer.onmessage = e => {
       break;
     case 'nextitem':
       const nextItem = update.detail;
+      document.querySelector('check-item')?.remove();
       if (nextItem) {
         const currentItem = document.createElement('check-item');
         currentItem.setAttribute('name', nextItem.name);

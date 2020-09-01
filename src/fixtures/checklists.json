@@ -1,0 +1,110 @@
+[
+  {
+    "checklist_title": "The list 1",
+    "type": "ul",
+    "percentage": 50,
+    "items": [
+      {
+        "content": "Hello",
+        "checked": true
+      },
+      {
+        "content": "Hi there"
+      },
+      {
+        "content": "Malganis"
+      },
+      {
+        "content": "My sublist",
+        "type": "ol",
+        "items": [
+          {
+            "content": "My sub item 1",
+            "checked": true
+          },
+          {
+            "content": "My sub item 2",
+            "checked": true
+          }
+        ]
+      },
+      {
+        "content": "Hello guys"
+      },
+      {
+        "content": "My sublist 2",
+        "type": "ul",
+        "items": [
+          {
+            "content": "My sub item 3",
+            "checked": true
+          },
+          {
+            "content": "My sub item 4",
+            "checked": true
+          }
+        ]
+      },
+      {
+        "content": "Malganisss"
+      },
+      {
+        "content": "Malganisss"
+      }
+    ]
+  },
+  {
+    "checklist_title": "The list 2",
+    "type": "ol",
+    "percentage": 50,
+    "items": [
+      {
+        "content": "Hello",
+        "checked": true
+      },
+      {
+        "content": "Malganis"
+      },
+      {
+        "content": "Hi there"
+      },
+      {
+        "content": "Malganisss"
+      },
+      {
+        "content": "My sublist 2",
+        "type": "ul",
+        "items": [
+          {
+            "content": "My sub item 3",
+            "checked": true
+          },
+          {
+            "content": "My sub item 4",
+            "checked": true
+          }
+        ]
+      },
+      {
+        "content": "Hello guys"
+      },
+      {
+        "content": "My sublist",
+        "type": "ol",
+        "items": [
+          {
+            "content": "My sub item 1",
+            "checked": true
+          },
+          {
+            "content": "My sub item 2",
+            "checked": true
+          }
+        ]
+      },
+      {
+        "content": "Malganisss"
+      }
+    ]
+  }
+]

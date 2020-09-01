@@ -1,5 +1,7 @@
 /** @typedef {import('./CheckItem.js').default} CheckItem */
 
+const templateCache = new WeakMap();
+
 const sharedMethodsMixin = Base => class Shared extends Base {
 
   constructor() {
@@ -35,6 +37,7 @@ const sharedMethodsMixin = Base => class Shared extends Base {
   }
 
   static _createItem(item) {
+    // @todo Randomize properly.
     const name = item.name || item.content.trim().replace(/\s/g, '-').toLowerCase() + (~~(Math.random() * 100)).toString();
     const isChecked = 'checked' in item;
     return `<li>${'items' in item ? `<b>${item.content}</b>${Shared.fromJSON(item.items, item.type)}` : `<check-item name="${name}" ${isChecked ? 'checked' : ''}>${item.content}</check-item>`}</li>`;
@@ -46,7 +49,14 @@ class OrderedChecklist extends sharedMethodsMixin(HTMLOListElement) {
   static TYPE = 'ol';
 
   static createList(items) {
-    return `<ol is="${OrderedChecklist.DEFAULT_NAME}" class="list lateral-padding">${items.map(super._createItem).join('')}</ol>`;
+    if (templateCache.has(items))
+      return templateCache.get(items);
+
+    const templateResult = `<ol is="${OrderedChecklist.DEFAULT_NAME}" class="list lateral-padding">${items.map(super._createItem).join('')}</ol>`;
+
+    templateCache.set(items, templateResult);
+
+    return templateResult;
   }
 }
 
@@ -55,7 +65,14 @@ class UnorderedChecklist extends sharedMethodsMixin(HTMLUListElement) {
   static TYPE = 'ul';
 
   static createList(items) {
-    return `<ul is="${UnorderedChecklist.DEFAULT_NAME}" class="list lateral-padding">${items.map(super._createItem).join('')}</ul>`;
+    if (templateCache.has(items))
+      return templateCache.get(items);
+
+    const templateResult = `<ul is="${UnorderedChecklist.DEFAULT_NAME}" class="list lateral-padding">${items.map(super._createItem).join('')}</ul>`;
+
+    templateCache.set(items, templateResult);
+
+    return templateResult;
   }
 }
 

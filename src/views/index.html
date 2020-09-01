@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 
+<!-- https://trello.com/1/authorize?key=342d5e16afb903ee948fe2d872ed6deb&scope=read&name=Undone&expiration=never&response_type=token -->
+
 <head>
   <meta charset="UTF-8">
   <title>Undone</title>
@@ -11,18 +13,14 @@
 
 <body>
   <div class="actions">
+    <button data-action="return" class="actions__btn" title="Return">🔙</button>
+    <button data-action="clear" class="actions__btn">🗑</button>
+    <div class="flex-space"></div>
     <button data-action="open:settings" class="actions__btn" title="Settings">⚙️</button>
-    <button data-action="window:minimize" class="actions__btn" title="Minimize">&ndash;</button>
-    <button data-action="window:close" class="actions__btn actions__btn--red" title="Close undone">&times;</button>
+    <button data-action="window:minimize" class="actions__btn" title="Minimize">➖</button>
+    <button data-action="window:close" class="actions__btn actions__btn--red" title="Close undone">✖</button>
   </div>
-  <main>
-    <header class="header lateral-padding">
-      <h1 id="list-title"></h1>
-      <circular-progress></circular-progress>
-    </header>
-    <ul class="list lateral-padding" is="unordered-checklist"></ul>
-  </main>
-
+  <main></main>
   <script type="module" src="../js/index.js"></script>
 </body>
 

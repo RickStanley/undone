@@ -1,5 +1,6 @@
 {
   "checklist_title": "The list",
+  "type": "ul",
   "checklist": [
     {
       "content": "Hello",

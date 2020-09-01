@@ -1,10 +1,17 @@
+[data-view=checklists] .actions :first-child {
+  visibility: hidden;
+}
+
 /* #region Generic*/
 .lateral-padding {
   padding: 0 1rem;
 }
 
+.flex-space {
+  flex: 1;
+}
+
 .actions {
-  justify-content: flex-end;
   display: flex;
 }
 

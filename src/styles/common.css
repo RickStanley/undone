@@ -56,6 +56,9 @@ html {
 /* #endregion */
 
 :root {
+  --window-width: 375;
+  --window-height: 500;
+
   --progressbar-size: calc(50 / 16 * 1rem);
   --progressbar-graph-color: #212121;
   --progressbar-graph-stroke-width: calc(5 / 16 * 1rem);
