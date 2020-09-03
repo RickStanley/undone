@@ -1,8 +1,6 @@
 import { UnorderedChecklist, OrderedChecklist } from '../../components/CheckList.js';
 import CircularProgress from "../../components/CircularProgress.js";
 
-const templateCache = new WeakMap();
-
 let listener;
 let deliverer;
 const questUpdateSound = new Audio('../assets/audios/skyrim_quest_update.ogg');
@@ -92,10 +90,6 @@ const detach = () => {
 };
 
 const processChecklist = checklist => {
-  console.log(checklist);
-  if (templateCache.has(checklist))
-    return templateCache.get(checklist);
-
   const checklistTemplateResult = checklist.type === 'ul' ? UnorderedChecklist.createList(checklist.items) : OrderedChecklist.createList(checklist.items);
 
   const templateResult = `
@@ -105,8 +99,6 @@ const processChecklist = checklist => {
   </header>
   ${checklistTemplateResult}
 `;
-
-  templateCache.set(checklist, templateResult);
 
   return templateResult;
 

@@ -1,7 +1,5 @@
 /** @typedef {import('./CheckItem.js').default} CheckItem */
 
-const templateCache = new WeakMap();
-
 const sharedMethodsMixin = Base => class Shared extends Base {
 
   constructor() {
@@ -49,12 +47,7 @@ class OrderedChecklist extends sharedMethodsMixin(HTMLOListElement) {
   static TYPE = 'ol';
 
   static createList(items) {
-    if (templateCache.has(items))
-      return templateCache.get(items);
-
     const templateResult = `<ol is="${OrderedChecklist.DEFAULT_NAME}" class="list lateral-padding">${items.map(super._createItem).join('')}</ol>`;
-
-    templateCache.set(items, templateResult);
 
     return templateResult;
   }
@@ -65,12 +58,7 @@ class UnorderedChecklist extends sharedMethodsMixin(HTMLUListElement) {
   static TYPE = 'ul';
 
   static createList(items) {
-    if (templateCache.has(items))
-      return templateCache.get(items);
-
     const templateResult = `<ul is="${UnorderedChecklist.DEFAULT_NAME}" class="list lateral-padding">${items.map(super._createItem).join('')}</ul>`;
-
-    templateCache.set(items, templateResult);
 
     return templateResult;
   }
