@@ -29,6 +29,11 @@ deliverer.onmessage = e => {
         document.body.appendChild(currentItem);
       }
       break;
+    case 'checklist':
+      if (update.detail === 'closed') {
+        window.close();
+      }
+      break;
   }
 };
 

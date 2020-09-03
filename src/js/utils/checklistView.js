@@ -82,6 +82,7 @@ const attach = () => {
 };
 
 const detach = () => {
+  deliverer.postMessage({ type: 'checklist', detail: 'closed' });
   totalComplete = checkItemsLength = 0;
   listener.close();
   deliverer.close();
