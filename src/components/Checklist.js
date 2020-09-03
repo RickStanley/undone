@@ -1,5 +1,6 @@
 /** @typedef {import('./CheckItem.js').default} CheckItem */
 
+/** @param {HTMLUListElement | HTMLOListElement} Base */
 const sharedMethodsMixin = Base => class Shared extends Base {
 
   constructor() {
@@ -21,6 +22,26 @@ const sharedMethodsMixin = Base => class Shared extends Base {
 
   getNextItem() {
     return this.items.find(item => !item.checked);
+  }
+
+  asJSON() {
+    // Get first level items only.
+    return Array.from(this.querySelectorAll(':scope > li'))
+      // Every li element.
+      .map(item =>
+        // If has more than one, than it's a sublist.
+        item.childElementCount > 1 ?
+          {
+            // Get the title of the sublist. Currently it's a `b` element.
+            content: item.firstElementChild.textContent,
+            // Get list type.
+            type: item.lastElementChild.constructor.TYPE,
+            // Call the sublist as JSON.
+            items: item.lastElementChild.asJSON()
+          }
+          // Else, it's just an item/check-item.
+          : item.firstElementChild.asJSON()
+      );
   }
 
   static fromJSON(items, type) {
