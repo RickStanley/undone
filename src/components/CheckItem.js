@@ -75,7 +75,6 @@ class CheckItem extends HTMLElement {
   // Or we could overwrite toJSON() method.
   asJSON() {
     return {
-      name: this.#INPUT.name,
       checked: this.#checked,
       content: this.textContent,
     };

@@ -16,6 +16,10 @@ const sharedMethodsMixin = Base => class Shared extends Base {
     return this.items.filter(item => item.checked);
   }
 
+  getProgress() {
+    return Math.floor(this.getCheckedItems().length / this.items.length * 100);
+  }
+
   getUncheckedItems() {
     return this.items.filter(item => !item.checked);
   }
@@ -58,7 +62,7 @@ const sharedMethodsMixin = Base => class Shared extends Base {
   static _createItem(item) {
     // @todo Randomize properly.
     const name = item.name || item.content.trim().replace(/\s/g, '-').toLowerCase() + (~~(Math.random() * 100)).toString();
-    const isChecked = 'checked' in item;
+    const isChecked = item.checked;
     return `<li>${'items' in item ? `<b>${item.content}</b>${Shared.fromJSON(item.items, item.type)}` : `<check-item name="${name}" ${isChecked ? 'checked' : ''}>${item.content}</check-item>`}</li>`;
   }
 };

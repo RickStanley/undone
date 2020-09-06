@@ -9,10 +9,12 @@
         "checked": true
       },
       {
-        "content": "Hi there"
+        "content": "Hi there",
+        "checked": false
       },
       {
-        "content": "Malganis"
+        "content": "Malganis",
+        "checked": false
       },
       {
         "content": "My sublist",
@@ -29,7 +31,8 @@
         ]
       },
       {
-        "content": "Hello guys"
+        "content": "Hello guys",
+        "checked": false
       },
       {
         "content": "My sublist 2",
@@ -46,10 +49,12 @@
         ]
       },
       {
-        "content": "Malganisss"
+        "content": "Malganisss",
+        "checked": false
       },
       {
-        "content": "Malganisss"
+        "content": "Malganisss",
+        "checked": false
       }
     ]
   },
@@ -63,13 +68,16 @@
         "checked": true
       },
       {
-        "content": "Malganis"
+        "content": "Malganis",
+        "checked": false
       },
       {
-        "content": "Hi there"
+        "content": "Hi there",
+        "checked": false
       },
       {
-        "content": "Malganisss"
+        "content": "Malganisss",
+        "checked": false
       },
       {
         "content": "My sublist 2",
@@ -86,7 +94,8 @@
         ]
       },
       {
-        "content": "Hello guys"
+        "content": "Hello guys",
+        "checked": false
       },
       {
         "content": "My sublist",
@@ -103,7 +112,8 @@
         ]
       },
       {
-        "content": "Malganisss"
+        "content": "Malganisss",
+        "checked": false
       }
     ]
   }

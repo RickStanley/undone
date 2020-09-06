@@ -5,7 +5,7 @@ const { ipcRenderer } = require('electron');
 import CheckItem from "../components/CheckItem.js";
 import { UnorderedChecklist, OrderedChecklist } from "../components/CheckList.js";
 import CircularProgress from "../components/CircularProgress.js";
-import { processChecklist, getListState, attach as attachChecklistEvents, detach as detachChecklistEvents } from "./utils/checklistView.js";
+import { processChecklist, getListState, attach as attachChecklistEvents, detach as detachChecklistEvents, getProgress } from "./utils/checklistView.js";
 
 customElements.define(CheckItem.DEFAULT_NAME, CheckItem);
 customElements.define(UnorderedChecklist.DEFAULT_NAME, UnorderedChecklist, { extends: UnorderedChecklist.TYPE });
@@ -21,10 +21,14 @@ const checklistsList = checklists => `
   <div class="undone-lists">
   ${checklists.map(({ checklist_title, percentage }, index) => `<button class="btn btn--with-icon" data-action="open:checklist" data-index="${index}">${checklist_title} <circular-progress class="icon" value="${percentage}"></circular-progress></button>`).join('')}
   </div>
-  <button>New checklist</button>
+  <button class="btn">New checklist</button>
 `;
 
-let listCache;
+const compareObject = (obj, source) =>
+  Object.keys(source).every(key => obj.hasOwnProperty(key) && obj[key] === source[key]);
+
+const compareLists = (current, source) =>
+  current.length === source.length && source.every(compareObject.bind(null, current));
 
 ready(() => {
   const entryElement = document.querySelector('main');
@@ -34,14 +38,12 @@ ready(() => {
    * @param {string} template 
    * @param {string} viewName 
    */
-  const mount = (template, viewName) => {
+  const mountTemplate = (template, viewName) => {
     entryElement.innerHTML = template;
     document.body.dataset.view = viewName;
   };
 
-  listCache = checklistsList(checklistsTest.map(({ checklist_title, percentage }) => ({ checklist_title, percentage })));
-
-  mount(listCache, 'checklists');
+  mountTemplate(checklistsList(checklistsTest), 'checklists');
 
   document.body.addEventListener('click', event => {
     /** @type {HTMLElement} */
@@ -56,14 +58,20 @@ ready(() => {
           case 'open:checklist':
             currentChecklistIndex = +actionElement.dataset.index;
             const checklistTemplate = processChecklist(checklistsTest[currentChecklistIndex]);
-            mount(checklistTemplate, 'checklist');
+            mountTemplate(checklistTemplate, 'checklist');
             attachChecklistEvents();
             break;
           case 'return':
+            const progress = getProgress();
+          console.log(getListState(), checklistsTest[currentChecklistIndex].items);
+            console.log(compareLists(getListState(), checklistsTest[currentChecklistIndex].items));
+
+            checklistsTest[currentChecklistIndex].percentage = progress;
+
             detachChecklistEvents();
 
             if (document.body.dataset.view === 'checklist') {
-              mount(listCache, 'checklists');
+              mountTemplate(checklistsList(checklistsTest), 'checklists');
             }
 
             break;
