@@ -83,7 +83,8 @@ class CircularProgress extends HTMLElement {
 
     const value = Number(this.getAttribute('value'));
     const isValueValid = value && !isNaN(value) && this._valueIsInRange(value);
-    if (!isValueValid) this.#value = 0;
+    this.#value = isValueValid ? value : 0;
+    if (isValueValid) this._setProperty(value);
 
     this._render();
   }
@@ -110,10 +111,17 @@ class CircularProgress extends HTMLElement {
    */
   set value(value) {
     if (this._valueIsInRange(value)) {
-      this.#CONTAINER.style.setProperty("--progressbar-value", value);
-      this.#CONTAINER.style.setProperty("--progressbar-value-caption", `"${value}"`);
+      this._setProperty(value);
       this.#value = value;
     }
+  }
+  
+  /**
+   * @param {number} value 
+   */
+  _setProperty(value) {
+    this.#CONTAINER.style.setProperty("--progressbar-value", value);
+    this.#CONTAINER.style.setProperty("--progressbar-value-caption", `"${value}"`);
   }
 
   /**
