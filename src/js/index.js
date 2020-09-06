@@ -5,7 +5,7 @@ const { ipcRenderer } = require('electron');
 import CheckItem from "../components/CheckItem.js";
 import { UnorderedChecklist, OrderedChecklist } from "../components/CheckList.js";
 import CircularProgress from "../components/CircularProgress.js";
-import { processChecklist, attach as attachChecklistEvents, detach as detachChecklistEvents } from "./utils/checklistView.js";
+import { processChecklist, getListState, attach as attachChecklistEvents, detach as detachChecklistEvents } from "./utils/checklistView.js";
 
 customElements.define(CheckItem.DEFAULT_NAME, CheckItem);
 customElements.define(UnorderedChecklist.DEFAULT_NAME, UnorderedChecklist, { extends: UnorderedChecklist.TYPE });
@@ -18,7 +18,9 @@ let checklistsTest = require('../fixtures/checklists.json');
 
 const checklistsList = checklists => `
   <h1>Undone</h1>
-  ${checklists.map(({ checklist_title, percentage }, index) => `<button data-action="open:checklist" data-index="${index}">${checklist_title}</button>`).join('')}
+  <div class="undone-lists">
+  ${checklists.map(({ checklist_title, percentage }, index) => `<button class="btn btn--with-icon" data-action="open:checklist" data-index="${index}">${checklist_title} <circular-progress class="icon" value="${percentage}"></circular-progress></button>`).join('')}
+  </div>
   <button>New checklist</button>
 `;
 
@@ -26,6 +28,7 @@ let listCache;
 
 ready(() => {
   const entryElement = document.querySelector('main');
+  let currentChecklistIndex = 0;
 
   /**
    * @param {string} template 
@@ -51,8 +54,8 @@ ready(() => {
       } else {
         switch (action) {
           case 'open:checklist':
-            const checklistIndex = +actionElement.dataset.index;
-            const checklistTemplate = processChecklist(checklistsTest[checklistIndex]);
+            currentChecklistIndex = +actionElement.dataset.index;
+            const checklistTemplate = processChecklist(checklistsTest[currentChecklistIndex]);
             mount(checklistTemplate, 'checklist');
             attachChecklistEvents();
             break;
