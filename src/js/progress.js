@@ -41,6 +41,10 @@ document.body.addEventListener('click', e => {
   const checkItem = e.target.closest('check-item');
 
   if (checkItem) {
+    if (!perkSelect.ended) {
+      perkSelect.pause();
+      perkSelect.currentTime = 0;
+    }
     perkSelect.play();
     checkItem.remove();
     const itemName = checkItem.name;

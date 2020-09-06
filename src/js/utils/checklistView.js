@@ -18,11 +18,19 @@ const updateProgress = () => {
   totalComplete = Math.floor(checklist.getCheckedItems().length / checkItemsLength * 100);
   progress.value = totalComplete;
   deliverer.postMessage({ type: 'progress', detail: totalComplete });
+  if (totalComplete !== 100) {
+    deliverer.postMessage({ type: 'nextitem', detail: checklist.getNextItem()?.asJSON() });
+  }
 };
 
 const checklistChange = event => {
-  if (event.target.checked)
+  if (event.target.checked) {
+    if (!skillIncreaseSound.ended) {
+      skillIncreaseSound.pause()
+      skillIncreaseSound.currentTime = 0;
+    }
     skillIncreaseSound.play();
+  }
 
   updateProgress();
 
@@ -39,6 +47,10 @@ const attach = () => {
 
   progress = document.querySelector(CircularProgress.DEFAULT_NAME);
 
+  if (!questUpdateSound.ended) {
+    questUpdateSound.pause();
+    questUpdateSound.currentTime = 0;
+  }
   questUpdateSound.play();
 
   checkItemsLength = checklist.items.length;
@@ -81,6 +93,10 @@ const attach = () => {
 
 };
 
+const getListState = () => {
+  return document.querySelector('.list').asJSON();
+};
+
 const detach = () => {
   deliverer.postMessage({ type: 'checklist', detail: 'closed' });
   totalComplete = checkItemsLength = 0;
@@ -106,7 +122,8 @@ const processChecklist = checklist => {
 };
 
 export {
+  getListState,
   processChecklist,
   attach,
-  detach
+  detach,
 };
