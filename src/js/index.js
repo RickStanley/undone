@@ -3,7 +3,7 @@ const { ipcRenderer } = require('electron');
 //#endregion
 
 import CheckItem from "../components/CheckItem.js";
-import { UnorderedChecklist, OrderedChecklist } from "../components/CheckList.js";
+import { UnorderedChecklist, OrderedChecklist, cacheList } from "../components/CheckList.js";
 import CircularProgress from "../components/CircularProgress.js";
 import { processChecklist, getListState, attach as attachChecklistEvents, detach as detachChecklistEvents, getProgress } from "./utils/checklistView.js";
 
@@ -23,12 +23,6 @@ const checklistsList = checklists => `
   </div>
   <button class="btn">New checklist</button>
 `;
-
-const compareObject = (obj, source) =>
-  Object.keys(source).every(key => obj.hasOwnProperty(key) && obj[key] === source[key]);
-
-const compareLists = (current, source) =>
-  current.length === source.length && source.every(compareObject.bind(null, current));
 
 ready(() => {
   const entryElement = document.querySelector('main');
@@ -62,17 +56,14 @@ ready(() => {
             attachChecklistEvents();
             break;
           case 'return':
-            const progress = getProgress();
-          console.log(getListState(), checklistsTest[currentChecklistIndex].items);
-            console.log(compareLists(getListState(), checklistsTest[currentChecklistIndex].items));
+            checklistsTest[currentChecklistIndex].percentage = getProgress();
 
-            checklistsTest[currentChecklistIndex].percentage = progress;
+            checklistsTest[currentChecklistIndex].last_hash = cacheList(checklistsTest[currentChecklistIndex].items, getListState());
 
             detachChecklistEvents();
 
-            if (document.body.dataset.view === 'checklist') {
+            if (document.body.dataset.view === 'checklist')
               mountTemplate(checklistsList(checklistsTest), 'checklists');
-            }
 
             break;
           // Debug for profiling memory

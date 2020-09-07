@@ -108,7 +108,9 @@ const detach = () => {
 };
 
 const processChecklist = checklist => {
-  const checklistTemplateResult = checklist.type === 'ul' ? UnorderedChecklist.createList(checklist.items) : OrderedChecklist.createList(checklist.items);
+  const checklistTemplateResult = checklist.type === 'ul' ?
+    UnorderedChecklist.createList(checklist.items, { hash: checklist.last_hash, shouldCache: true }) :
+    OrderedChecklist.createList(checklist.items, { hash: checklist.last_hash, shouldCache: true });
 
   const templateResult = `
   <header class="header lateral-padding">

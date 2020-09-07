@@ -2,6 +2,8 @@
   {
     "checklist_title": "The list 1",
     "type": "ul",
+    "hash": "",
+    "last_hash": "",
     "percentage": 50,
     "items": [
       {
@@ -61,6 +63,8 @@
   {
     "checklist_title": "The list 2",
     "type": "ol",
+    "hash": "",
+    "last_hash": "",
     "percentage": 50,
     "items": [
       {
